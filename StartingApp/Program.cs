@@ -3,6 +3,7 @@
 //Ask the user if they are sure this is the string they want to use
 //if the user says yes, then count the number of times each character appears in the string
 //if the user says no, then ask them to input a new string
+//only show each character once
 
 using System;
 using System.Collections.Generic;
@@ -15,45 +16,47 @@ namespace StartingApp
         {
             Console.WriteLine("Please enter a string");
             string input = Console.ReadLine();
-            Console.WriteLine("Are you sure this is the string you want to use? (Y/N)");
+            Console.WriteLine("Are you sure this is the string you want to use? (y/n)");
             string answer = Console.ReadLine();
-            if (answer == "Y")
+            if (answer == "y")
             {
-                int count = 0;
-                for (int i = 0; i < input.Length; i++)
+                Dictionary<char, int> charCount = new Dictionary<char, int>();
+                foreach (char c in input)
                 {
-                    for (int j = 0; j < input.Length; j++)
+                    if (charCount.ContainsKey(c))
                     {
-                        if (input[i] == input[j])
-                        {
-                            count++;
-                        }
+                        charCount[c]++;
                     }
-                    Console.WriteLine(input[i] + " appears " + count + " times");
-                    count = 0;
+                    else
+                    {
+                        charCount.Add(c, 1);
+                    }
                 }
-            }
-            else if (answer == "N")
-            {
-                Console.WriteLine("Please enter a new string");
-                input = Console.ReadLine();
-                int count = 0;
-                for (int i = 0; i < input.Length; i++)
+                foreach (KeyValuePair<char, int> kvp in charCount)
                 {
-                    for (int j = 0; j < input.Length; j++)
-                    {
-                        if (input[i] == input[j])
-                        {
-                            count++;
-                        }
-                    }
-                    Console.WriteLine(input[i] + " appears " + count + " times");
-                    count = 0;
+                    Console.WriteLine("Character: {0}, Count: {1}", kvp.Key, kvp.Value);
                 }
             }
             else
             {
-                Console.WriteLine("Please enter a valid answer");
+                Console.WriteLine("Please enter a new string");
+                string newInput = Console.ReadLine();
+                Dictionary<char, int> charCount = new Dictionary<char, int>();
+                foreach (char c in newInput)
+                {
+                    if (charCount.ContainsKey(c))
+                    {
+                        charCount[c]++;
+                    }
+                    else
+                    {
+                        charCount.Add(c, 1);
+                    }
+                }
+                foreach (KeyValuePair<char, int> kvp in charCount)
+                {
+                    Console.WriteLine("Character: {0}, Count: {1}", kvp.Key, kvp.Value);
+                }
             }
         }
     }
